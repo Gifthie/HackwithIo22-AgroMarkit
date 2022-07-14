@@ -11,7 +11,7 @@
         "lintfix": "prettier --write --list-different . && yarn lint:js --fix && yarn lint:style --fix"
     },
     "dependencies": {
-        "@headlessui/vue": "^1.6.6",
+        "@headlessui/vue": "^1.6.7",
         "@heroicons/vue": "^1.0.6",
         "@vueuse/head": "^0.7.6",
         "eslint": "^8.19.0",

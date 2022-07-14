@@ -57,7 +57,7 @@
                                 >{{ item.name }}</router-link
                             >
                             <a
-                                href="https://forms.gle/THUBKiaoQuWwFHfc6"
+                                href="/register"
                                 class="font-medium text-gray-500 hover:text-gray-900"
                                 target="_blank"
                                 >Register</a

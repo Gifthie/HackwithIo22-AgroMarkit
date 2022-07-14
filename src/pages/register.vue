@@ -23,16 +23,16 @@
                             v-model="form.fullName"
                             type="text"
                             name="fullName"
-                            :class="{ 'invalid-input': errors.email }"
+                            :class="{ 'invalid-input': errors.fullName }"
                             class="input-style border-gray-300 rounded-lg w-full px-3 py-4 tracking-widest"
-                            placeholder="Email"
+                            placeholder="Full Name"
                             autocomplete=""
                         />
                         <span class="invalid-message">{{
                             errors.fullName
                         }}</span>
                     </div>
-                    <div>
+                    <div class="mt-5">
                         <label for="email">Email</label>
                         <Field
                             v-model="form.email"
@@ -121,7 +121,7 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { useHead } from '@vueuse/head'
 
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth'
 
 const siteTitle = 'AgroMarkit | Register'
 const auth = getAuth()
@@ -161,6 +161,9 @@ async function register() {
                 message: 'Account registered successfully',
                 status: true,
             })
+            updateProfile(data.user, {
+                displayName: form.fullName,
+            }).then(() => console.log("Updated Profile"))
             router.push('/login')
         })
         .catch((error) => {
