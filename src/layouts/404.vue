@@ -9,9 +9,9 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { useMeta } from 'vue-meta'
+import { useHead } from "@vueuse/head";
 
-useMeta({
+useHead({
     title: '404 - Not found!',
 })
 

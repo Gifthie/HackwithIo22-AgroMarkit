@@ -9,7 +9,7 @@ import Layouts from 'vite-plugin-vue-layouts'
 export default defineConfig({
     resolve: {
         alias: {
-            '~/': `${path.resolve(__dirname, 'src')}/`,
+            '@': `${path.resolve(__dirname, 'src')}/`,
         },
     },
     plugins: [vue(), Pages(), Layouts(), ViteComponents()],

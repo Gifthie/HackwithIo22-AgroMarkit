@@ -1,19 +1,25 @@
 <template>
-    <metainfo>
-        <template v-slot:title="{ content }">
-            {{ content ? `${content} | ${siteName}` : siteName }}
-        </template>
-    </metainfo>
-    <router-view />
+    <div>
+          <router-view v-slot="{ Component, route }">
+            <transition name="fade" mode="out-in">
+              <div :key="route.name">  
+                <component :is="Component"></component>
+              </div>
+            </transition>
+          </router-view>
+    </div>
+    
 </template>
 
-<script setup>
-import { useMeta } from 'vue-meta'
 
-const siteName = 'Farm Markit'
 
-useMeta({
-    title: '',
-    htmlAttrs: { lang: 'en', amp: true },
-})
-</script>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
