@@ -1,4 +1,5 @@
 import { createStore, createLogger } from 'vuex'
+import createPersistedState from "vuex-persistedstate";
 
 import user from './modules/user'
 import toast from './modules/toast'
@@ -13,7 +14,7 @@ const store = createStore({
         cart
     },
     strict: debug,
-    plugins: debug ? [createLogger()] : [],
+    plugins: debug ? [createLogger(), createPersistedState()] : [],
 })
 
 export default store

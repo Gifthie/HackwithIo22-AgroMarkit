@@ -1,6 +1,7 @@
 <template>
     <div class="mx-auto">
         <div>
+            <Cart ref="modal" />
             <Popover class="top-0 sticky z-10 bg-white shadow-sm">
                 <Toast v-if="toast.status" />
                 <div
@@ -57,7 +58,7 @@
                                 class="font-medium text-gray-500 hover:text-gray-900"
                                 >{{ item.name }}</router-link
                             >
-                            <button href="" class="flex items-center bg-green-500 rounded-full px-3 py-3">
+                            <button @click="openCart" class="flex items-center bg-green-500 rounded-full px-3 py-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
@@ -162,14 +163,19 @@
 <script setup>
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { MenuIcon, XIcon } from '@heroicons/vue/outline'
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
+import Cart from '../components/Cart.vue';
 
 const store = useStore()
 const cart = store.getters['cart/getCart']
 const toast = computed(() => store.getters['toast/getToast'])
-
+const modal = ref(null)
 const navigation = [{name: 'Products', href: "/products"}]
+
+function openCart() {
+    modal.value.openCart()
+} 
 
 onMounted(() => {
     console.log(cart)
