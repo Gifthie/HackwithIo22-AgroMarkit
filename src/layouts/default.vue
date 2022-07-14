@@ -23,7 +23,7 @@
                                     <img
                                         alt="Workflow"
                                         class="w-auto h-10"
-                                        src="./assets/logo.png"
+                                        src="../assets/logo.png"
                                     />
                                     <h2
                                         class="ml-2 font-bold text-xl md:text-2xl text-gray-600 hover:text-green-600"
@@ -87,7 +87,7 @@
                                 <div>
                                     <img
                                         class="h-8 w-auto"
-                                        src="./assets/logo.png"
+                                        src="../assets/logo.png"
                                         alt=""
                                     />
                                 </div>
