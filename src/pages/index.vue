@@ -28,7 +28,7 @@
             </div>
             <div class="mt-0 ml-2 sm:ml-3">
                 <a
-                    href="/about"
+                    href="/products"
                     class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#ef8c22] hover:bg-orange-600 md:py-4 md:text-lg md:px-10"
                 >
                     Shop for items

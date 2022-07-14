@@ -79,6 +79,10 @@
                     <div class="mt-5">
                       <Field v-model="form.price" type="number" name="price" id="" :class="{ 'invalid-input': errors.price }" class="input-style border-gray-200 rounded-lg w-full px-3 py-2" placeholder="Price" />
                     </div>
+
+                    <div class="mt-5">
+                      <Field v-model="form.image" type="file" accept="img/*" name="image" id="" class="input-style border-gray-200 rounded-lg w-full px-3 py-2" placeholder="Price" />
+                    </div>
                     
                   </div>
                   <div class="flex justify-center">
@@ -114,23 +118,29 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { collection, addDoc } from "firebase/firestore";
 import { getAuth } from "@firebase/auth";
+import { getStorage, ref as fref, uploadBytes, getDownloadURL } from "firebase/storage";
 import db from "@/firebase_init.js"
 
 const userID = getAuth().currentUser.uid
 
 const isOpen = ref(false)
 const loading = ref(false)
+const imageURL = ref('')
 const form = reactive({
   'category' : '',
   'name' : '',
   'price' : '',
+  'image' : '',
 })
+
+const storage = getStorage();
 
 const schema = Yup.object().shape({
     name: Yup.string()
         .required('Name is required'),
     price: Yup.string()
-        .required('Price is required')
+        .required('Price is required'),
+
 });
 
 const router = useRouter()
@@ -151,23 +161,36 @@ function openModal() {
 }
 
 async function addProduct() {
+
     loading.value = true
-    const {error, response} = await addDoc(collection(db, "products"), {
-        name: form.name,
-        category: form.category,
-        price: form.price,
-        seller_id: userID
+    const storageRef = fref(storage, form.image.name);
+
+    uploadBytes(storageRef, form.image).then((snapshot) => {
+      getDownloadURL(storageRef)
+      .then(url => {
+        imageURL.value = url
+        addDoc(collection(db, "products"), {
+            name: form.name,
+            category: form.category,
+            price: form.price,
+            image_url: imageURL.value,
+            seller_id: userID
+        })
+        .then(data => {
+          console.log(data)
+          store.commit('toast/setToast', {
+              type: 'success',
+              message: 'Product added successfully',
+              status: true,
+          })
+        })
+      })
+      .catch(error => console.log(error))
     });
 
-    if (error) {
-        return
-    }
+    
 
-    store.commit('toast/setToast', {
-        type: 'success',
-        message: 'Product added successfully',
-        status: true,
-    })
+    
     router.push("/dashboard/products")
 
     loading.value = false
