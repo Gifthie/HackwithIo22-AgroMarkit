@@ -8,7 +8,7 @@
                 <div class="flex items-center justify-between w-full md:w-auto">
                   <router-link to="/" class="flex items-center justify-center">
                     <span class="sr-only">Open Menu</span>
-                    <img alt="Workflow" class="w-auto h-10" src="../assets/logo.png" />
+                    <img alt="Workflow" class="w-auto h-10" src="./assets/logo.png" />
                     <h2 class="ml-2 font-bold text-xl md:text-2xl text-gray-600 hover:text-green-600">Agro Markit</h2>
                   </router-link>
                   <div class="-mr-2 flex items-center md:hidden">
