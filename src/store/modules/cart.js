@@ -1,12 +1,15 @@
 export default {
+    namespaced: true,
     state: () => ({
-        cart: []
+        cart: [],
     }),
 
     getters: {
-        getCart: state => state.cart,
+        getCart: state => {
+            return state.cart
+        },
         getCartLength: (state, getters) => {
-            return getters.getCart.length
+            return state.cart.length
         }
     },
     actions: {},

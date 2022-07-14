@@ -18,7 +18,7 @@
                     NGN {{ product.price }}
                   </p>
               </div>
-              <Button>Add to Cart</Button>
+              <Button @click="addToCart(product)">Add to Cart</Button>
           </div>
         </a>
 
@@ -35,9 +35,11 @@ import Button from '../components/Button.vue';
 import db from "@/firebase_init.js"
 import { collection, query, getDocs } from 'firebase/firestore'
 import Spinner from '../components/Spinner.vue';
+import { useStore } from 'vuex';
 
 const q = query(collection(db, 'products'))
 
+const store = useStore()
 
 const siteName = 'Home | Products'
 
@@ -54,6 +56,15 @@ async function fetchProducts() {
     snapShot.forEach(doc => {
         products.value.push(doc.data())
     })
+}
+
+function addToCart(product) {
+  store.commit('cart/addProductToCart', product);
+  store.commit('toast/setToast', {
+      type: 'success',
+      message: 'Added to Cart',
+      status: true,
+  })
 }
 
 onMounted(() => {

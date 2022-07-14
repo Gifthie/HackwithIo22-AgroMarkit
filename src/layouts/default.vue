@@ -2,6 +2,7 @@
     <div class="mx-auto">
         <div>
             <Popover class="top-0 sticky z-10 bg-white shadow-sm">
+                <Toast v-if="toast.status" />
                 <div
                     class="py-6 border-b border-orange-50 px-4 sm:px-6 lg:px-8"
                 >
@@ -60,7 +61,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
-                                <span class="bg-white rounded-full px-3 font-bold">0</span>
+                                <span class="bg-white rounded-full px-3 font-bold">{{ cart.length }}</span>
                             </button>
                         </div>
                     </nav>
@@ -161,6 +162,16 @@
 <script setup>
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { MenuIcon, XIcon } from '@heroicons/vue/outline'
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore()
+const cart = store.getters['cart/getCart']
+const toast = computed(() => store.getters['toast/getToast'])
 
 const navigation = [{name: 'Products', href: "/products"}]
+
+onMounted(() => {
+    console.log(cart)
+})
 </script>
