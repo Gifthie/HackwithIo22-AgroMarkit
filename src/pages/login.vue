@@ -16,7 +16,7 @@
           class="md:px-6 sm:px-32 px-10 mt-4">
           <div>
             <label for="email">Email</label>
-            <Field v-model="form.username" type="email" name="email" :class="{ 'invalid-input': errors.email }"
+            <Field v-model="form.email" type="email" name="email" :class="{ 'invalid-input': errors.email }"
               class="input-style border-gray-300 rounded-lg w-full px-3 py-4 tracking-widest" placeholder="Email"
               autocomplete="" />
             <span class="invalid-message">{{ errors.email }}</span>
@@ -36,15 +36,15 @@
             <span class="invalid-message">{{ errors.password }}</span>
           </div>
 
-          <div class="flex mt-16 justify-center">
+          <div class="flex mt-16 justify-center items-center">
             <Button class="mr-6 lg:w-1/3 flex items-center justify-center" :disabled="loading">
               <Spinner v-if="loading" />
               <span v-else>Sign In</span>
             </Button>
 
-            <Button class="lg:w-1/3 bg-orange-400" @click="register">
-              Register
-            </Button>
+            <div class="text-sm">
+              New User? <router-link to="/register" class="text-green-500 hover:underline">Register</router-link>
+            </div>
           </div>
 
         </Form>
@@ -73,6 +73,10 @@ import { useRouter } from "vue-router"
 import { useStore } from "vuex"
 import { useHead } from "@vueuse/head";
 
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth'
+
+const auth = getAuth()
+
 const siteTitle = "AgroMarkit | Login"
 
 useHead({
@@ -80,7 +84,7 @@ useHead({
 })
 
 const form = reactive({
-  username: '',
+  email: '',
   password: ''
 })
 const hidePassword = ref(true)
@@ -101,8 +105,27 @@ function togglePassword() {
   hidePassword.value = !hidePassword.value
 }
 
-async function login() {
+function login() {
   loading.value = true
+
+  signInWithEmailAndPassword(auth, form.email, form.password)
+  .then((data) => {
+      console.log('Login successful!');
+      store.commit("toast/setToast", {
+            type: "success",
+            message: "Logged in successfully",
+            status: true,
+      });
+      router.push('/dashboard')
+      loading.value = false
+  })
+  .catch(error => {
+      console.log(error)
+      alert(error.message);
+      loading.value = false
+  });
+
+  
 }
 
 function register() {

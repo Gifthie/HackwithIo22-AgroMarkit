@@ -84,10 +84,10 @@
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-600 hover:text-white"
               >Products</a
             >
-            <router-link
-              to="/"
+            <a
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-600 hover:text-white"
-              >Log out</router-link
+              @click="logout"
+              >Log out</a
             >
           </div>
         </transition>
@@ -102,4 +102,8 @@ import { useSidebar } from "@/hooks/useSidebar";
 
 const dropdownOpen = ref(false);
 const { isOpen } = useSidebar();
+
+const props = defineProps({
+  logout: Function
+})
 </script>

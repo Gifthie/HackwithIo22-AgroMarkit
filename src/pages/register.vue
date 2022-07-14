@@ -15,6 +15,13 @@
                 <Form :validation-schema="schema" v-slot="{ errors }" method="POST" @submit="register" action="#"
                     class="md:px-6 sm:px-32 px-10 mt-4">
                     <div>
+                        <label for="email">Full Name</label>
+                        <Field v-model="form.fullName" type="text" name="fullName" :class="{ 'invalid-input': errors.email }"
+                            class="input-style border-gray-300 rounded-lg w-full px-3 py-4 tracking-widest"
+                            placeholder="Email" autocomplete="" />
+                        <span class="invalid-message">{{ errors.fullName }}</span>
+                    </div>
+                    <div>
                         <label for="email">Email</label>
                         <Field v-model="form.email" type="email" name="email" :class="{ 'invalid-input': errors.email }"
                             class="input-style border-gray-300 rounded-lg w-full px-3 py-4 tracking-widest"
@@ -37,11 +44,15 @@
                         <span class="invalid-message">{{ errors.password }}</span>
                     </div>
 
-                    <div class="flex items-center">
-                        <Button class="mt-16 mx-auto lg:w-1/3 flex items-center justify-center" :disabled="loading">
+                    <div class="flex justify-center items-center mt-16">
+                        <Button class="mr-6 lg:w-1/3 flex items-center justify-center" :disabled="loading">
                             <Spinner v-if="loading" />
                             <span v-else>Register</span>
                         </Button>
+
+                        <div class="text-sm">
+                            Already have an account? <router-link to="/login" class="text-green-500 hover:underline">Login</router-link>
+                        </div>
                     </div>
 
                 </Form>
@@ -79,6 +90,7 @@ useHead({
 })
 
 const form = reactive({
+    fullName: '',
     email: '',
     password: ''
 })
@@ -88,6 +100,8 @@ const router = useRouter()
 const store = useStore()
 
 const schema = Yup.object().shape({
+    fullName: Yup.string()
+        .required('Name is required'),
     email: Yup.string()
         .required('Email is required')
         .email('Email is invalid'),
@@ -103,14 +117,19 @@ function togglePassword() {
 async function register() {
     loading.value = true
     createUserWithEmailAndPassword(auth, form.email, form.password)
-        .then((data) => {
-            console.log('Successfully registered!');
-            router.push('/')
-        })
-        .catch(error => {
-            console.log(error)
-            alert(error.message);
+    .then((data) => {
+        console.log(data.user);
+        store.commit("toast/setToast", {
+            type: "success",
+            message: "Account registered successfully",
+            status: true,
         });
+        router.push('/login')
+    })
+    .catch(error => {
+        console.log(error)
+        alert(error.message);
+    });
 
     loading.value = false
 }

@@ -1,5 +1,6 @@
 <template>
     <div>
+      <Toast v-if="toast.status" />
           <router-view v-slot="{ Component, route }">
             <transition name="fade" mode="out-in">
               <div :key="route.name">  
@@ -11,7 +12,13 @@
     
 </template>
 
+<script setup>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
+const store = useStore()
+const toast = computed(() => store.getters["toast/getToast"])
+</script>
 
 <style>
 .fade-enter-active,

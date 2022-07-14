@@ -6,28 +6,47 @@ import App from './App.vue'
 import store from './store'
 import './index.css'
 import './assets/styles.css'
+import './firebase_init.js'
 import { createHead } from '@vueuse/head'
+import { onAuthStateChanged, getAuth } from 'firebase/auth'
 
-import { initializeApp } from 'firebase/app'
-
-const firebaseConfig = {
-    apiKey: "AIzaSyDbQnJ3rrjRoug7ZrFmbf_Ub-5GqH-VoQA",
-    authDomain: "agro-markit.firebaseapp.com",
-    projectId: "agro-markit",
-    storageBucket: "agro-markit.appspot.com",
-    messagingSenderId: "143237342534",
-    appId: "1:143237342534:web:d7cf1472c3545ac1dab147"
-};
-
-initializeApp(firebaseConfig);
 
 const head = createHead()
+const auth = getAuth()
 const routes = setupLayouts(generatedRoutes)
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
 })
+
+const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const removeListener = onAuthStateChanged(auth, (user) => {
+            removeListener()
+            resolve(user)
+        }, reject)
+    })
+}
+
+router.beforeEach(async (to, from, next) => {
+    if(to.matched.some(record => record.meta.requiresAuth)) {
+      if (await getCurrentUser()) {
+        next()
+        return
+      }
+      store.commit("toast/setToast", {
+        type: "error",
+        message: "You have to login first.",
+        status: true,
+      });
+      next('/login')
+    } else {
+      next()
+    }
+})
+
+
 
 const app = createApp(App).use(router).use(store).use(head)
 

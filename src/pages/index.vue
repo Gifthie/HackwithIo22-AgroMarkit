@@ -177,7 +177,7 @@
 import { useHead } from "@vueuse/head";
 import { onMounted, ref } from "vue";
 
-const siteName = 'Home | Explore by Parakletus'
+const siteName = 'Home | AgroMarkit'
 
 useHead({
   title: siteName
