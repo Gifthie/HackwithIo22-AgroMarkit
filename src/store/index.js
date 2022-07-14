@@ -8,7 +8,7 @@ const debug = process.env.NODE_ENV !== 'production'
 const store = createStore({
     modules: {
         user,
-        toast
+        toast,
     },
     strict: debug,
     plugins: debug ? [createLogger()] : [],

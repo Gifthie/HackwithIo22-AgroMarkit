@@ -2,20 +2,20 @@ export default {
     namespaced: true,
     state: () => ({
         status: false,
-        message: "",
-        type: "",
+        message: '',
+        type: '',
     }),
 
     mutations: {
         setToast(state, { status, message, type }) {
-            state.status = status;
-            state.message = message;
-            state.type = type;
+            state.status = status
+            state.message = message
+            state.type = type
         },
         closeToast(state) {
-            state.status = false;
-            state.message = "";
-            state.type = "";
+            state.status = false
+            state.message = ''
+            state.type = ''
         },
     },
 
@@ -27,7 +27,7 @@ export default {
                 status: state.status,
                 message: state.message,
                 type: state.type,
-            };
+            }
         },
     },
-};
+}

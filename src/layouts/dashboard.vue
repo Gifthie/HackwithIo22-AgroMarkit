@@ -19,12 +19,12 @@
 </template>
 
 <script setup>
-import Sidebar from "@/components/dashboard/Sidebar.vue";
-import Header from "@/components/dashboard/Header.vue";
-import { getAuth, signOut, onAuthStateChanged } from "@firebase/auth";
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
+import Sidebar from '@/components/dashboard/Sidebar.vue'
+import Header from '@/components/dashboard/Header.vue'
+import { getAuth, signOut, onAuthStateChanged } from '@firebase/auth'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
 const auth = getAuth()
 const isLoggedIn = ref(false)
@@ -43,17 +43,17 @@ onMounted(() => {
 
 async function logout() {
     signOut(auth)
-    .then(() => {
-        console.log('logged out')
-        store.commit("toast/setToast", {
-            type: "success",
-            message: "Logout Successful",
-            status: true,
-        });
-        router.push("/login")        
-    })
-    .catch(error => {
-        console.log(error)
-    })
+        .then(() => {
+            console.log('logged out')
+            store.commit('toast/setToast', {
+                type: 'success',
+                message: 'Logout Successful',
+                status: true,
+            })
+            router.push('/login')
+        })
+        .catch((error) => {
+            console.log(error)
+        })
 }
 </script>

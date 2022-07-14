@@ -9,7 +9,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { useHead } from "@vueuse/head";
+import { useHead } from '@vueuse/head'
 
 useHead({
     title: '404 - Not found!',
