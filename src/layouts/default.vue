@@ -1,7 +1,7 @@
 <template>
     <div class="mx-auto">
         <div>
-            <Cart ref="modal" />
+            <Cart ref="modal" :cart="cart" :totalPrice="totalPrice" />
             <Popover class="top-0 sticky z-10 bg-white shadow-sm">
                 <Toast v-if="toast.status" />
                 <div
@@ -168,14 +168,15 @@ import { useStore } from 'vuex';
 import Cart from '../components/Cart.vue';
 
 const store = useStore()
-const cart = store.getters['cart/getCart']
+const cart = ref(store.getters['cart/getCart'])
+const totalPrice = computed(() => store.getters['cart/getTotalPrice'])
 const toast = computed(() => store.getters['toast/getToast'])
 const modal = ref(null)
 const navigation = [{name: 'Products', href: "/products"}]
 
 function openCart() {
     modal.value.openCart()
-} 
+}
 
 onMounted(() => {
     console.log(cart)

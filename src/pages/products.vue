@@ -54,7 +54,7 @@ async function fetchProducts() {
     
     const snapShot = await getDocs(q);
     snapShot.forEach(doc => {
-        products.value.push(doc.data())
+        products.value.push({...doc.data(), id:doc.id})
     })
 }
 
