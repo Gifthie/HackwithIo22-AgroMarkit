@@ -13,7 +13,7 @@ export default {
         },
         getTotalPrice: (state) => {
             return state.cart.reduce((current, next) =>
-                parseInt(current) + parseInt(next.price), 0);
+                parseInt(current) + parseInt(next.price * next.quantity), 0);
         }
     },
     actions: {},
@@ -38,6 +38,6 @@ export default {
                 }
             }
         },
-        clearCart: (state, cart) => (state.cart = [])
+        clearCart: (state) => (state.cart = [])
     }
 }

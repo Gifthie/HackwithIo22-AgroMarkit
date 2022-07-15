@@ -1,5 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
+  <CheckoutModal ref="modal" />
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="relative z-10" @close="open = false">
       <TransitionChild as="template" enter="ease-in-out duration-500" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in-out duration-500" leave-from="opacity-100" leave-to="opacity-0">
@@ -60,9 +61,10 @@
                       <p>Subtotal</p>
                       <p>NGN {{ totalPrice }}</p>
                     </div>
-                    <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+                    <!-- <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> -->
                     <div class="mt-6">
-                      <!-- <a href="#" class="">Checkout</a> -->
+                      
+                     <Button v-if="cart.length != 0" @click="openModal">Checkout</Button>
                     </div>
                     <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>
@@ -83,26 +85,34 @@
 <script setup>
 import { ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import Button from "@/components/Button.vue";
+import CheckoutModal from './CheckoutModal.vue';
 import { XIcon } from '@heroicons/vue/outline'
 import { useStore } from 'vuex';
 import { computed } from '@vue/reactivity';
 
 defineProps({
-  cart: Array,
   totalPrice: Number,
 })
 
 const store = useStore()
-
 const open = ref(false)
+const modal = ref(null)
 const reference = computed(() =>  nanoid(15))
+
+function openModal() {
+  modal.value.openModal()
+}
 
 function openCart() {
   open.value = true
 }
 
+const cart = ref(store.getters["cart/getCart"])
+
 function remove(product) {
   store.commit('cart/removeFromCart', product)
+  cart.value = store.getters["cart/getCart"]
 }
 
 defineExpose({ openCart })
