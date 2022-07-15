@@ -17,7 +17,7 @@
         >
             <!-- Deploying Technology to Solving Africa’s Education Problems. -->
         </p>
-        <div class="mt-8 lg:mt-10 flex justify-center items-center">
+        <div class="mt-8 lg:mt-10 flex justify-center items-center px-6">
             <div class="rounded-md shadow">
                 <router-link
                     to="/register"
